@@ -62,7 +62,7 @@ const SignIn = ({ onClick }: SignInProps) => {
         Forgot password?
       </button>
       <button className="btn-blue btn-large w-full" type="submit">
-        Sign in with Artsky
+        Sign in with Anomaly
       </button>
     </form>
   );

@@ -10,10 +10,10 @@ const Test = ({ className, dark }: TestProps) => (
   <Link className={`flex w-[11.88rem] ${className}`} href="/">
     <Image
       className="w-full h-auto"
-      src={dark ? "/images/logo.png" : "/images/logo.png"}
+      src={dark ? "/images/anomaly.gif" : "/images/anomaly.gif"}
       width={190}
-      height={40}
-      alt="Brainwave"
+      height={190}
+      alt="anomaly"
     />
   </Link>
 );
