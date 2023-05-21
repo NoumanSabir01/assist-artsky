@@ -8,13 +8,21 @@ import Chat from "@/components/Chat";
 import Question from "@/components/Question";
 import Answer from "@/components/Answer";
 import Photo from "@/components/Photo";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 type MainProps = {};
 
 const Main = ({}: MainProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<string>("");
-  const [chat, setChat] = useState<Array<any>>([]);
+  const [chat, setChat] = useState<Array<any>>([
+    {
+      role: "system",
+      content:
+        "{'output': { 'format': 'markdown', 'max_tokens': 1000, 'overflow_strategy': 'fold'}}",
+    },
+  ]);
 
   const submitMessage = async () => {
     let messages = [...chat];
@@ -70,8 +78,15 @@ const Main = ({}: MainProps) => {
             <>
               {role === "loading" ? (
                 <Answer loading />
-              ) : (
-                <Answer key={index}>{content}</Answer>
+              ) : role === "system" ? null : (
+                <Answer key={index}>
+                  {
+                    <ReactMarkdown
+                      children={content}
+                      remarkPlugins={[remarkGfm]}
+                    />
+                  }
+                </Answer>
               )}
             </>
           );
