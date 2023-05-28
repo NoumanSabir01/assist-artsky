@@ -7,7 +7,7 @@ type TestProps = {
 };
 
 const Test = ({ className, dark }: TestProps) => (
-  <Link className={`flex w-[11.88rem] ${className}`} href="/">
+  <Link className={`flex w-[120px] ${className}`} href="/">
     <Image
       className="w-full h-auto"
       src={dark ? "/images/anomaly.gif" : "/images/anomaly.gif"}
