@@ -7,10 +7,10 @@ type TestProps = {
 };
 
 const Test = ({ className, dark }: TestProps) => (
-  <Link className={`flex w-[120px] ${className}`} href="/">
+  <Link className={`flex w-[200px] ${className}`} href="/">
     <Image
       className="w-full h-auto"
-      src={dark ? "/images/anomaly.gif" : "/images/anomaly.gif"}
+      src={dark ? "/images/anomaly.png" : "/images/anomaly.png"}
       width={190}
       height={190}
       alt="anomaly"
