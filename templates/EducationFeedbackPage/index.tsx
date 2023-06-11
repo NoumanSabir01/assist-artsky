@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "@/components/Layout";
 import Chat from "@/components/Chat";
 import Message from "@/components/Message";
@@ -11,7 +11,9 @@ import remarkGfm from "remark-gfm";
 
 const EducationFeedbackPage = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [regenerate, setRegenerate] = useState(false);
   const [message, setMessage] = useState<string>("");
+  const [lastMessage, setLastMessage] = useState<string>("");
   const [chat, setChat] = useState<Array<any>>([
     {
       role: "system",
@@ -22,16 +24,32 @@ const EducationFeedbackPage = () => {
 
   const submitMessage = async () => {
     let messages = [...chat];
-    messages.push(
-      {
-        role: "user",
-        content: message,
-      },
-      {
-        role: "loading",
-        content: message,
-      }
-    );
+
+    if (regenerate) {
+      messages.push(
+        {
+          role: "user",
+          content: lastMessage,
+        },
+        {
+          role: "loading",
+          content: lastMessage,
+        }
+      );
+      setRegenerate(false);
+    } else {
+      messages.push(
+        {
+          role: "user",
+          content: message,
+        },
+        {
+          role: "loading",
+          content: message,
+        }
+      );
+    }
+
     setMessage("");
     setChat(messages);
     setIsLoading(true);
@@ -46,25 +64,14 @@ const EducationFeedbackPage = () => {
       });
   };
 
+  useEffect(() => {
+    if (regenerate) {
+      submitMessage();
+    }
+  }, [regenerate]);
+
   return (
     <Layout>
-      {/* <Chat title="Review test and provide feedback">
-                <Question
-                    document="Student-test.pdf"
-                    content="Review this test and provide feedback on how it can be improved or adjusted to better measure the student's knowledge and understanding of the subject being tested."
-                    time="Just now"
-                />
-                <Answer loading />
-                <Answer time="Just now">
-                    <Feedback />
-                </Answer>
-            </Chat>
-            <Message
-                value={message}
-                onChange={(e: any) => setMessage(e.target.value)}
-                // document="Student-test.pdf"
-            /> */}
-
       <Chat title="Education Assistant">
         {chat.map((item, index) => {
           const { role, content } = item;
@@ -81,7 +88,13 @@ const EducationFeedbackPage = () => {
               {role === "loading" ? (
                 <Answer loading />
               ) : role === "system" ? null : (
-                <Answer key={index}>
+                <Answer
+                  key={index}
+                  content={content}
+                  onRegenerate={() => {
+                    setRegenerate(true);
+                  }}
+                >
                   {
                     <ReactMarkdown
                       children={content}
@@ -96,7 +109,10 @@ const EducationFeedbackPage = () => {
       </Chat>
       <Message
         value={message}
-        onChange={(e: any) => setMessage(e.target.value)}
+        onChange={(e: any) => {
+          setMessage(e.target.value);
+          setLastMessage(e.target.value);
+        }}
         onSubmit={submitMessage}
       />
     </Layout>

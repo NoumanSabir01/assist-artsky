@@ -24,6 +24,13 @@ const Message = ({
 }: MessageProps) => {
   const stylesButton = "group absolute right-3 bottom-2 w-10 h-10";
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      onSubmit(); // Call the onSubmit function when Enter is pressed
+    }
+  };
+
   return (
     <div className="relative z-5 px-10 pb-6 before:absolute before:-top-6 before:left-0 before:right-6 before:bottom-1/2 before:bg-gradient-to-b before:to-n-1 before:from-n-1/0 before:pointer-events-none 2xl:px-6 2xl:pb-5 md:px-4 md:pb-4 dark:before:to-n-6 dark:before:from-n-6/0">
       <div className="relative z-2 border-2 border-n-3 rounded-xl overflow-hidden dark:border-n-5">
@@ -37,6 +44,7 @@ const Message = ({
             value={value}
             onChange={onChange}
             placeholder={placeholder || "Ask me anything"}
+            onKeyDown={handleKeyDown} // Add the keydown event handler
           />
           {/* {value === "" ? (
             <button className={`${stylesButton}`}>

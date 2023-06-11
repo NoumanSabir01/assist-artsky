@@ -7,9 +7,17 @@ type AnswerProps = {
   children?: React.ReactNode;
   loading?: boolean;
   time?: string;
+  content?: string;
+  onRegenerate?: any;
 };
 
-const Answer = ({ children, loading, time }: AnswerProps) => {
+const Answer = ({
+  children,
+  loading,
+  time,
+  content,
+  onRegenerate,
+}: AnswerProps) => {
   return (
     <div className="max-w-[50rem]">
       <div className="pt-6 px-6 pb-16 space-y-4 bg-n-2 rounded-[1.25rem] md:p-5 md:pb-14 dark:bg-n-7  break-words min-w-[500px]w-fit">
@@ -40,7 +48,7 @@ const Answer = ({ children, loading, time }: AnswerProps) => {
         ) : (
           <div className="flex items-center">
             <div className="caption1 text-n-4/50 dark:text-n-4">{time}</div>
-            <Actions />
+            <Actions content={content} onRegenerate={onRegenerate} />
           </div>
         )}
       </div>
