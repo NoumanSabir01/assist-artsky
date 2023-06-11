@@ -23,9 +23,9 @@ const SignIn = ({ onClick }: SignInProps) => {
     signInWithEmailAndPassword(auth, name, password)
       .then((userCredential) => {
         // Signed in
-        const user = userCredential.user;
-        console.log("USWE", user);
-        login(user?.accessToken);
+        const user: any = userCredential.user;
+
+        login(user.accessToken!);
 
         toast((t) => (
           <Notify iconCheck>
